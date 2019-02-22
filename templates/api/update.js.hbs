@@ -1,0 +1,25 @@
+import { makeFetchAction } from 'redux-api-call';
+
+import { {{service}} as getHost } from '../../../../utils/getFrontendEnv';
+import { decamelizeKeys } from '../../../../utils/formatObject';
+
+export const CALL_API_TYPE = '{{module}}/UPDATE_{{apiName}}';
+
+export const genFetchParams = (id, params) => ({
+  endpoint: `${getHost()}/{{#if namespace}}{{namespace}}/{{/if}}{{underscoredModel}}s/${id}`,
+  method: 'PUT',
+  body: JSON.stringify({ {{underscoredModel}}: decamelizeKeys(params) }),
+  enableJwt: true,
+  notify: {
+    start: 'Updating {{name}}',
+    success: 'Update {{name}} successfully',
+    fail: 'Update {{name}} failed!',
+  },
+});
+
+const {
+  actionCreator: update{{selectorName}}AC,
+  isFetchingSelector: isUpdatingSelector,
+} = makeFetchAction(CALL_API_TYPE, genFetchParams);
+
+export { update{{selectorName}}AC, isUpdatingSelector };

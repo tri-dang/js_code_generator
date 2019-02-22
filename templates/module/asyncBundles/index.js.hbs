@@ -1,0 +1,8 @@
+import Loadable from '../../../utils/Loadable';
+
+export const Dump = Loadable(
+  () =>
+  import(/* webpackChunkName: '{{module}}' */
+    '../index'),
+  'Dump'
+);

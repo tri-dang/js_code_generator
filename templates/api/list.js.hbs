@@ -1,0 +1,24 @@
+import { makeFetchAction } from 'redux-api-call';
+
+import { {{service}} as getHost } from '../../../../utils/getFrontendEnv';
+import { decamelizeKeys } from '../../../../utils/formatObject';
+import generateGetURL from '../../../../utils/urlGenerator';
+
+export const CALL_API_TYPE = '{{module}}/FETCH_{{apiName}}S';
+
+export const genFetchParams = (params = {}) => ({
+  enableJwt: true,
+  endpoint: generateGetURL(
+    `${getHost()}/{{#if namespace}}{{namespace}}/{{/if}}{{underscoredModel}}s`,
+    decamelizeKeys(params)
+  ),
+  method: 'GET',
+});
+
+const {
+  actionCreator: fetch{{selectorName}}sAC,
+  dataSelector: rawSelector,
+  isFetchingSelector,
+} = makeFetchAction(CALL_API_TYPE, genFetchParams);
+
+export { fetch{{selectorName}}sAC, rawSelector, isFetchingSelector };

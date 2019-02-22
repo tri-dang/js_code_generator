@@ -1,0 +1,26 @@
+import { makeFetchAction } from 'redux-api-call';
+import { createSelector } from 'reselect';
+import getOr from 'lodash/fp/getOr';
+import { {{service}} as getHost } from '../../../../utils/getFrontendEnv';
+
+export const CALL_API_TYPE = '{{module}}/FETCH_{{apiName}}';
+
+export const genFetchParams = id => ({
+  endpoint: `${getHost()}/{{#if namespace}}{{namespace}}/{{/if}}{{underscoredModel}}s/${id}`,
+  method: 'GET',
+  enableJwt: true,
+});
+
+const {
+  actionCreator: fetch{{selectorName}}AC,
+  dataSelector: rawSelector,
+  updater: rawUpdater,
+  isFetchingSelector,
+} = makeFetchAction(CALL_API_TYPE, genFetchParams);
+
+const dataSelector = createSelector(
+  rawSelector,
+  getOr({}, 'data')
+);
+
+export { fetch{{selectorName}}AC, isFetchingSelector, dataSelector, rawUpdater };

@@ -1,0 +1,12 @@
+import reducerRegistry from 'reducer-registry';
+import epicRegistry from 'epic-registry';
+
+import reducers from './reducers';
+import epics from './epics';
+
+import Dump from './components/Dump';
+
+reducerRegistry.registerBranch(reducers);
+epicRegistry.registerEpic(epics);
+
+export { Dump };

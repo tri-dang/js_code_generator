@@ -1,0 +1,25 @@
+import { makeFetchAction } from 'redux-api-call';
+
+import { {{service}} as getHost } from '../../../../utils/getFrontendEnv';
+import { decamelizeKeys } from '../../../../utils/formatObject';
+
+export const CALL_API_TYPE = '{{module}}/CREATE_{{apiName}}';
+
+export const genFetchParams = params => ({
+  endpoint: `${getHost()}/{{#if namespace}}{{namespace}}/{{/if}}{{underscoredModel}}s`,
+  method: 'POST',
+  body: JSON.stringify({ {{underscoredModel}}: decamelizeKeys(params) }),
+  enableJwt: true,
+  notify: {
+    start: 'Creating {{name}}',
+    success: 'Create {{name}} successfully',
+    fail: 'Create {{name}} failed!',
+  },
+});
+
+const {
+  actionCreator: create{{selectorName}}AC,
+  isFetchingSelector: isCreatingSelector,
+} = makeFetchAction(CALL_API_TYPE, genFetchParams);
+
+export { create{{selectorName}}AC, isCreatingSelector };
